@@ -57,7 +57,7 @@ export async function loadGoleadas() {
 
   try {
     const teamsResult = await apiFetch("/get/teams");
-    teamsMap = buildTeamsMap(teamsResult.data);
+    teamsMap = buildTeamsMap(teamsResult.data.teams);
     teamsStale = teamsResult.stale;
   } catch (error) {
     // /get/teams falló del todo (ni siquiera hay cache) — seguimos sin nombres
@@ -75,4 +75,19 @@ export async function loadGoleadas() {
     total: goleadas.length,
     maxDifference: goleadas.length > 0 ? goleadas[0].difference : 0,
   };
+}
+
+// Reintenta /get/teams en segundo plano hasta que funcione,
+// y avisa a ui.js para que actualice los nombres sin recargar la página.
+export function retryTeamsInBackground(onSuccess, intervalMs = 15000) {
+  const interval = setInterval(async () => {
+    try {
+      const teamsResult = await apiFetch("/get/teams");
+      clearInterval(interval);
+      const teamsMap = buildTeamsMap(teamsResult.data.teams);
+      onSuccess(teamsMap);
+    } catch (error) {
+      // Sigue fallando, se reintenta en el próximo ciclo
+    }
+  }, intervalMs);
 }

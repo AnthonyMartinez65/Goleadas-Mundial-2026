@@ -1,7 +1,7 @@
 // ui.js — Todo lo que toca el DOM vive aquí.
 // Escucha eventos de api.js/goleadas.js y decide cómo pintarlos.
 
-import { loadGoleadas } from "./goleadas.js";
+import { loadGoleadas, retryTeamsInBackground } from "./goleadas.js";
 import { login } from "./api.js";
 
 const tarjetasEl = document.getElementById("tarjetas");
