@@ -8,14 +8,29 @@
 </head>
 <body>
   <header>
-    <h1>Rastreador de Goleadas</h1>
-    <p id="status" aria-live="polite"></p>
-  </header>
+  <h1>⚽ Rastreador de Goleadas</h1>
+  <p class="subtitle">FIFA World Cup 2026 · Live Data</p>
+  <p id="stats" class="stats"></p>
+  <p id="status" aria-live="polite" class="status-banner"></p>
+</header>
 
   <main id="app">
-    <div id="loading">Cargando partidos...</div>
-    <div id="tarjetas"></div>
+    <div id="loading" class="skeleton-grid"></div>
+    <div id="tarjetas" class="tarjetas-grid"></div>
   </main>
+
+  <div id="session-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <h2>Sesión expirada</h2>
+      <p>Tu sesión venció. Inicia sesión de nuevo para continuar.</p>
+      <form id="login-form">
+        <input type="email" id="login-email" placeholder="Correo" required>
+        <input type="password" id="login-password" placeholder="Contraseña" required>
+        <button type="submit">Iniciar sesión</button>
+      </form>
+      <p id="login-error" class="error-text"></p>
+    </div>
+  </div>
 
   <script type="module" src="js/api.js"></script>
   <script type="module" src="js/goleadas.js"></script>
