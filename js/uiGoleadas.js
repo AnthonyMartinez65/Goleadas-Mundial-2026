@@ -4,9 +4,9 @@
 import { loadGoleadas, retryTeamsInBackground } from "./goleadas.js";
 import { login } from "./api.js";
 
-const tarjetasEl = document.getElementById("tarjetas");
-const loadingEl = document.getElementById("loading");
-const statsEl = document.getElementById("stats");
+const tarjetasEl = document.getElementById("tarjetas-goleadas");
+const loadingEl = document.getElementById("loading-goleadas");
+const statsEl = document.getElementById("stats-goleadas");
 const statusEl = document.getElementById("status");
 const sessionModal = document.getElementById("session-modal");
 const loginForm = document.getElementById("login-form");
@@ -154,4 +154,4 @@ async function init() {
   }
 }
 
-init();
+export { init as initGoleadas };
