@@ -3,6 +3,7 @@
 
 import { initGoleadas } from "./uiGoleadas.js";
 import { initRutaCampeon } from "./uiRutaCampeon.js";
+import { initMuro } from "./uiMuro.js";
 
 const tabButtons = document.querySelectorAll(".tab-btn");
 const tabContents = document.querySelectorAll(".tab-content");
@@ -11,8 +12,8 @@ const loadedTabs = new Set();
 const initializers = {
   goleadas: initGoleadas,
   "ruta-campeon": initRutaCampeon,
-  // "muro": initMuro,       // se agrega en el próximo paso
-  // "estadios": initEstadios,
+  muro: initMuro,
+  // "estadios": initEstadios,  // se agrega en el próximo paso
 };
 
 function switchTab(tabName) {

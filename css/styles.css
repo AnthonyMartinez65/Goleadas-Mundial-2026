@@ -399,3 +399,45 @@ main {
   opacity: 0.85;
   margin-top: 0.2rem;
 }
+.tarjeta-muro {
+  position: relative;
+  text-align: center;
+}
+
+.muro-posicion {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background: var(--dorado);
+  color: var(--azul-oscuro);
+  font-weight: 800;
+  font-size: 0.9rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.muro-ga {
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.muro-ga strong {
+  color: var(--verde-ok);
+  font-size: 1.3rem;
+}
+.muro-explicacion {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 0.3rem;
+  font-style: italic;
+}
+.muro-detalle {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.3rem;
+}
