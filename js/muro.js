@@ -3,7 +3,7 @@
 
 import { apiFetch } from "./api.js";
 
-// Aplana los 12 grupos en un solo arreglo de {team_id, ga}
+// Aplana los 12 grupos en un solo arreglo de {team_id, ga, gf}
 function flattenGroups(groups) {
   const registros = [];
   for (const grupo of groups) {
@@ -21,10 +21,7 @@ function flattenGroups(groups) {
 // Busca el próximo partido pendiente (finished: false) de un equipo específico
 function findNextMatch(games, teamId) {
   const pendientes = games
-    .filter(
-      (game) =>
-        game.finished === false || game.finished === "FALSE"
-    )
+    .filter((game) => game.finished === false || game.finished === "FALSE")
     .filter(
       (game) =>
         String(game.home_team_id) === String(teamId) ||
@@ -33,6 +30,28 @@ function findNextMatch(games, teamId) {
     .sort((a, b) => new Date(a.local_date) - new Date(b.local_date));
 
   return pendientes.length > 0 ? pendientes[0] : null;
+}
+
+// Suma los goles a favor/en contra de un equipo en TODOS sus partidos
+// finalizados (fase de grupos + eliminatoria) — dato extra informativo,
+// no reemplaza el ranking oficial que exige el enunciado (basado en /get/groups)
+function calcularTotalTorneo(games, teamId) {
+  let gf = 0;
+  let ga = 0;
+
+  const partidosJugados = games.filter(
+    (g) =>
+      (g.finished === true || g.finished === "TRUE") &&
+      (String(g.home_team_id) === String(teamId) || String(g.away_team_id) === String(teamId))
+  );
+
+  for (const g of partidosJugados) {
+    const esLocal = String(g.home_team_id) === String(teamId);
+    gf += esLocal ? Number(g.home_score) : Number(g.away_score);
+    ga += esLocal ? Number(g.away_score) : Number(g.home_score);
+  }
+
+  return { gf, ga, partidosJugados: partidosJugados.length };
 }
 
 // Orquesta todo: ranking de los 5 equipos con menos ga + su próximo rival
@@ -57,6 +76,7 @@ export async function loadMuro() {
 
   const ranking = registros.map((registro) => {
     const team = teamsMap.get(String(registro.team_id));
+    const totalTorneo = calcularTotalTorneo(games, registro.team_id);
 
     let nextMatch = null;
     let nextMatchFailed = false;
@@ -76,15 +96,16 @@ export async function loadMuro() {
     }
 
     return {
-  teamId: registro.team_id,
-  teamName: team ? team.name_en : `Equipo #${registro.team_id}`,
-  teamFlag: team ? team.flag : null,
-  ga: registro.ga,
-  gf: registro.gf,
-  diferencia: registro.gf - registro.ga,
-  nextMatch,
-  nextMatchFailed,
-   };
+      teamId: registro.team_id,
+      teamName: team ? team.name_en : `Equipo #${registro.team_id}`,
+      teamFlag: team ? team.flag : null,
+      ga: registro.ga,
+      gf: registro.gf,
+      diferencia: registro.gf - registro.ga,
+      totalTorneo,
+      nextMatch,
+      nextMatchFailed,
+    };
   });
 
   return { ranking };

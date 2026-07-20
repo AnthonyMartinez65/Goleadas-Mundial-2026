@@ -43,26 +43,32 @@ function createTarjetaPartido(game) {
   });
 
   card.innerHTML = `
-    <p class="fecha-partido">${fecha}</p>
-    <div class="tarjeta-equipos">
-  <div class="equipo">
-    ${game.homeFlag ? `<img src="${game.homeFlag}" alt="Bandera de ${game.homeName}" class="bandera">` : `<span class="bandera bandera--vacia">🏳️</span>`}
-    <span>${game.homeName}</span>
-  </div>
-  <strong>vs</strong>
-  <div class="equipo">
-    ${game.awayFlag ? `<img src="${game.awayFlag}" alt="Bandera de ${game.awayName}" class="bandera">` : `<span class="bandera bandera--vacia">🏳️</span>`}
-    <span>${game.awayName}</span>
-  </div>
-</div>
-    <p class="estadio-info">
+  <p class="fecha-partido">${fecha}</p>
+  <div class="tarjeta-equipos">
+    <div class="equipo">
+      ${game.homeFlag ? `<img src="${game.homeFlag}" alt="Bandera de ${game.homeName}" class="bandera">` : `<span class="bandera bandera--vacia">🏳️</span>`}
+      <span>${game.homeName}</span>
+    </div>
+    <div class="marcador">
       ${
-        game.hasStadiumData
-          ? `📍 ${game.stadiumName} · ${game.stadiumCity}, ${game.stadiumCountry} · Aforo: ${game.stadiumCapacity?.toLocaleString()}`
-          : `⚠️ Estadio no disponible`
+        game.finished === true || game.finished === "TRUE"
+          ? `<strong>${game.home_score} - ${game.away_score}</strong>`
+          : `<strong class="marcador--pendiente">vs</strong><span class="badge-pendiente">Pendiente</span>`
       }
-    </p>
-  `;
+    </div>
+    <div class="equipo">
+      ${game.awayFlag ? `<img src="${game.awayFlag}" alt="Bandera de ${game.awayName}" class="bandera">` : `<span class="bandera bandera--vacia">🏳️</span>`}
+      <span>${game.awayName}</span>
+    </div>
+  </div>
+  <p class="estadio-info">
+    ${
+      game.hasStadiumData
+        ? `📍 ${game.stadiumName} · ${game.stadiumCity}, ${game.stadiumCountry} · Aforo: ${game.stadiumCapacity?.toLocaleString()}`
+        : `⚠️ Estadio no disponible`
+    }
+  </p>
+`;
   return card;
 }
 

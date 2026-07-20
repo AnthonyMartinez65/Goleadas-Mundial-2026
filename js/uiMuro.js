@@ -41,7 +41,8 @@ function createTarjetaMuro(equipo, posicion) {
       <span>${equipo.teamName}</span>
     </div>
     <p class="muro-ga"><strong>${equipo.ga}</strong> ${equipo.ga === 1 ? "gol recibido" : "goles recibidos"}</p>
-   <p class="muro-detalle">⚽ ${equipo.gf} a favor · Diferencia: ${equipo.diferencia >= 0 ? "+" : ""}${equipo.diferencia}</p>
+    <p class="muro-detalle">⚽ ${equipo.gf} a favor · Diferencia: ${equipo.diferencia >= 0 ? "+" : ""}${equipo.diferencia}</p>
+    <p class="muro-torneo">🏆 Torneo completo: ${equipo.totalTorneo.gf} a favor, ${equipo.totalTorneo.ga} en contra (${equipo.totalTorneo.partidosJugados} partidos)</p>
     <p class="estadio-info">
       ${
         equipo.nextMatchFailed
