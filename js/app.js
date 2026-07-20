@@ -2,6 +2,7 @@
 // Carga cada subproyecto solo la primera vez que se visita su pestaña
 
 import { initGoleadas } from "./uiGoleadas.js";
+import { initRutaCampeon } from "./uiRutaCampeon.js";
 
 const tabButtons = document.querySelectorAll(".tab-btn");
 const tabContents = document.querySelectorAll(".tab-content");
@@ -9,8 +10,8 @@ const loadedTabs = new Set();
 
 const initializers = {
   goleadas: initGoleadas,
-  // "ruta-campeon": initRutaCampeon,  // se agrega en el próximo paso
-  // "muro": initMuro,
+  "ruta-campeon": initRutaCampeon,
+  // "muro": initMuro,       // se agrega en el próximo paso
   // "estadios": initEstadios,
 };
 
@@ -28,5 +29,4 @@ tabButtons.forEach((btn) => {
   btn.addEventListener("click", () => switchTab(btn.dataset.tab));
 });
 
-// Carga la primera pestaña al iniciar
 switchTab("goleadas");

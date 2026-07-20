@@ -1,16 +1,12 @@
-// ui.js — Todo lo que toca el DOM vive aquí.
+// uiGoleadas.js — Todo lo que toca el DOM para la pestaña de Goleadas.
 // Escucha eventos de api.js/goleadas.js y decide cómo pintarlos.
 
 import { loadGoleadas, retryTeamsInBackground } from "./goleadas.js";
-import { login } from "./api.js";
 
 const tarjetasEl = document.getElementById("tarjetas-goleadas");
 const loadingEl = document.getElementById("loading-goleadas");
 const statsEl = document.getElementById("stats-goleadas");
 const statusEl = document.getElementById("status");
-const sessionModal = document.getElementById("session-modal");
-const loginForm = document.getElementById("login-form");
-const loginError = document.getElementById("login-error");
 
 // ---------- Skeleton loading ----------
 
@@ -96,7 +92,7 @@ document.addEventListener("api:retry-countdown", (event) => {
   setStatus(`⏱️ Límite de peticiones alcanzado. Reintentando en ${remaining}s...`, "warning");
 });
 
-document.addEventListener("api:retrying", (event) => {
+document.addEventListener("api:retrying", () => {
   setStatus(`⚠️ El servidor no respondió. Reintentando...`, "warning");
 });
 
@@ -105,29 +101,12 @@ document.addEventListener("api:using-cache", () => {
 });
 
 document.addEventListener("goleadas:teams-unavailable", () => {
-  setStatus(`⚠️ No se pudieron cargar los nombres de equipos. Mostrando ids temporalmente.`, "warning");
-});
+  setStatus(`⚠️ No se pudieron cargar los nombres de equipos. Reintentando en segundo plano...`, "warning");
 
-document.addEventListener("api:session-expired", () => {
-  sessionModal.classList.remove("hidden");
-});
-
-// ---------- Reautenticación sin reload ----------
-
-loginForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  loginError.textContent = "";
-
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
-
-  try {
-    await login(email, password);
-    sessionModal.classList.add("hidden");
-    await init(); // recargamos los datos con el nuevo token, sin reload()
-  } catch (error) {
-    loginError.textContent = "Correo o contraseña incorrectos.";
-  }
+  retryTeamsInBackground(() => {
+    setStatus(`✅ Nombres de equipos actualizados.`, "info");
+    init();
+  });
 });
 
 // ---------- Orquestación principal ----------
@@ -148,9 +127,7 @@ async function init() {
     }
   } catch (error) {
     hideSkeletons();
-    if (error.message !== "SESSION_EXPIRED") {
-      setStatus("❌ No se pudieron cargar los datos y no hay copia guardada.", "error");
-    }
+    setStatus("❌ No se pudieron cargar los datos y no hay copia guardada.", "error");
   }
 }
 
