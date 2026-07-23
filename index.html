@@ -18,6 +18,7 @@
     <button class="tab-btn" data-tab="ruta-campeon">🏆 Ruta del Campeón</button>
     <button class="tab-btn" data-tab="muro">🧱 El Muro</button>
     <button class="tab-btn" data-tab="estadios">🏟️ Estadios</button>
+    <button class="tab-btn" data-tab="empates">🤝 Radar de Empates</button>
   </nav>
 
   <main id="app">
@@ -46,6 +47,10 @@
       <div id="loading-estadios" class="skeleton-grid"></div>
       <div id="grafica-estadios"></div>
     </section>
+    <section id="tab-empates" class="tab-content">
+  <div id="loading-empates" class="skeleton-grid"></div>
+  <div id="matriz-empates"></div>
+</section>
   </main>
 
   <script type="module" src="js/app.js"></script>

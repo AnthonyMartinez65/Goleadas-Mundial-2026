@@ -505,3 +505,51 @@ main {
   border-top: 1px dashed var(--gris-medio);
   padding-top: 0.4rem;
 }
+.grupo-bloque {
+  margin-bottom: 1.5rem;
+}
+
+.grupo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--dorado);
+}
+
+.grupo-header h3 {
+  color: var(--azul-marino);
+  font-size: 1.1rem;
+}
+
+.grupo-contador {
+  font-size: 0.8rem;
+  color: #888;
+  background: var(--gris-claro);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.grupo-celdas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.8rem;
+}
+
+.celda-empate {
+  background: white;
+  border-radius: 10px;
+  padding: 0.9rem;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.marcador-empate {
+  font-size: 1.1rem;
+  color: var(--dorado);
+}

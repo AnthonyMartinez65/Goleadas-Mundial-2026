@@ -5,6 +5,7 @@ import { initGoleadas } from "./uiGoleadas.js";
 import { initRutaCampeon } from "./uiRutaCampeon.js";
 import { initMuro } from "./uiMuro.js";
 import { initEstadios } from "./uiEstadios.js";
+import { initEmpates } from "./uiEmpates.js";
 
 const tabButtons = document.querySelectorAll(".tab-btn");
 const tabContents = document.querySelectorAll(".tab-content");
@@ -15,6 +16,7 @@ const initializers = {
   "ruta-campeon": initRutaCampeon,
   muro: initMuro,
   estadios: initEstadios,
+  empates: initEmpates,
 };
 
 function switchTab(tabName) {
